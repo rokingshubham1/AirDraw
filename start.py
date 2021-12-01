@@ -4,17 +4,32 @@ from collections import deque
 from tkinter import *
 from PIL import Image, ImageTk
 
-# default called trackbar function
+from pathlib import Path
+
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+
+
+OUTPUT_PATH = Path(__file__).parent
+ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+
+
+def relative_to_assets(path: str) -> Path:
+    return ASSETS_PATH / Path(path)
+
+
+
 
 
 def setValues(x):
     print("")
 
-
 root = Tk()
-root.geometry("655x732")
 
-# Creating the trackbars needed for adjusting the marker colour
+root.geometry("1400x1000")
+root.configure(bg = "#FFFFFF")
+
+
+
 cv2.namedWindow("Color detectors")
 cv2.createTrackbar("Upper Hue", "Color detectors", 153, 180, setValues)
 cv2.createTrackbar("Upper Saturation", "Color detectors", 255, 255, setValues)
@@ -25,10 +40,8 @@ cv2.createTrackbar("Lower Value", "Color detectors", 49, 255, setValues)
 
 
 
-# The kernel to be used for dilation purpose
 kernel = np.ones((5, 5), np.uint8)
 
-#global declaration of colors
 
 colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (0, 255, 255)]
 colorIndex = 0
@@ -116,15 +129,10 @@ def Tracking():
         cnts, _ = cv2.findContours(Mask.copy(), cv2.RETR_EXTERNAL,
                 cv2.CHAIN_APPROX_SIMPLE)
         center = None
-        ## Ifthe contours are formed
         if len(cnts) > 0:
-            # sorting the contours to find biggest
             cnt = sorted(cnts, key=cv2.contourArea, reverse=True)[0]
-            # Get the radius of the enclosing circle around the found contour
             ((x, y), radius) = cv2.minEnclosingCircle(cnt)
-            # Draw the circle around the contour
             cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
-            # Calculating the center of the detected contour
             M = cv2.moments(cnt)
             center = (int(M['m10'] / M['m00']), int(M['m01'] / M['m00']))
 
@@ -183,7 +191,6 @@ def Tracking():
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
                 
-
 
 
 def Paint():
@@ -321,17 +328,123 @@ def Paint():
         cv2.namedWindow('Paint', cv2.WINDOW_AUTOSIZE)
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
+        if cv2.waitKey(3) & 0xFF == ord("s"):
+            i+=1
+            cv2.imshow("imshow2",frame)
+            cv2.imwrite('D:/AirDraw_Saved_Slides/slide_'+str(i)+'.png', frame)
+            print("Wrote Image")
+            continue
 
-#main-menu gui
+#main-menu UI
 
-fr = Frame(root, borderwidth=6, bg="grey", relief=SUNKEN)
-fr.pack(side=LEFT, anchor="nw")
-b1 = Button(fr, fg="red", text="White Board", command=Paint)
-b1.pack(side=LEFT)
-b2 = Button(fr, fg="red", text="Cam Board", command=Tracking)
-b2.pack(side=LEFT)
-b3 = Button(fr, fg="red", text="Calibrations", command=mask)
-b3.pack(side=LEFT)
+canvas = Canvas(
+    root,
+    bg = "#FFFFFF",
+    height = 1025,
+    width = 1440,
+    bd = 0,
+    highlightthickness = 0,
+    relief = "ridge"
+)
+
+canvas.place(x = 0, y = 0)
+image_image_1 = PhotoImage(
+    master = canvas,
+    file=relative_to_assets("image_1.png"))
+image_1 = canvas.create_image(
+    720.0,
+    512.0,
+    image=image_image_1
+)
+
+image_image_2 = PhotoImage(
+    master=canvas,
+    file=relative_to_assets("image_2.png"))
+image_2 = canvas.create_image(
+    1333.3726196289062,
+    745.0,
+    image=image_image_2
+)
+
+button_image_1 = PhotoImage(
+    master = canvas,
+    file=relative_to_assets("button_1.png"))
+button_1 = Button(
+    image=button_image_1,
+    borderwidth=0,
+    highlightthickness=0,
+    command=Paint,
+    relief="flat"
+
+)
+button_1.place(
+    x=113.9999771118164,
+    y=338.0,
+    width=606.0,
+    height=146.51031494140625
+)
+
+button_image_2 = PhotoImage(
+    master=canvas,
+    file=relative_to_assets("button_2.png"))
+button_2 = Button(
+    image=button_image_2,
+    borderwidth=0,
+    highlightthickness=0,
+    command=Tracking,
+    relief="flat"
+)
+button_2.place(
+    x=114.00003814697266,
+    y=534.0,
+    width=605.9999389648438,
+    height=137.0
+)
+
+button_image_3 = PhotoImage(
+    master=canvas,
+    file=relative_to_assets("button_3.png"))
+button_3 = Button(
+    image=button_image_3,
+    borderwidth=0,
+    highlightthickness=0,
+    command=mask,
+    relief="flat"
+)
+button_3.place(
+    x=114.00003814697266,
+    y=723.6097412109375,
+    width=605.9999389648438,
+    height=184.3902587890625
+)
+
+image_image_3 = PhotoImage(
+    master = canvas,
+    file=relative_to_assets("image_3.png"))
+image_3 = canvas.create_image(
+    1111.0,
+    566.0,
+    image=image_image_3
+)
+
+image_image_4 = PhotoImage(
+    master = canvas,
+    file=relative_to_assets("image_4.png"))
+image_4 = canvas.create_image(
+    258.00000762939453,
+    216.0,
+    image=image_image_4
+)
+
+canvas.create_text(
+    423.0,
+    105.0,
+    anchor="nw",
+    text="  Air   Draw",
+    fill="#FFFFFF",
+    font=("Rosario Bold", 144 * -1)
+)
+root.resizable(False, False)
 root.mainloop()
 
     
