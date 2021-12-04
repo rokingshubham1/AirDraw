@@ -39,7 +39,7 @@ cv2.createTrackbar("Lower Saturation", "Color detectors", 72, 255, setValues)
 cv2.createTrackbar("Lower Value", "Color detectors", 49, 255, setValues)
 
 
-
+# The kernel to be used for dilation purpose
 kernel = np.ones((5, 5), np.uint8)
 
 
@@ -51,7 +51,7 @@ colorIndex = 0
 # Loading the default webcam of PC.
 cap = cv2.VideoCapture(0)
 
-
+# function for calibration and masking
 def mask():
 
     while True:
@@ -76,7 +76,7 @@ def mask():
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
-
+# Function for cam board
 def Tracking():
 
     bpoints = [deque(maxlen=1024)]
@@ -192,7 +192,7 @@ def Tracking():
             break
                 
 
-
+# Function for white board
 def Paint():
     # Giving different arrays to handle colour points of different colour
     bpoints = [deque(maxlen=1024)]
@@ -335,9 +335,9 @@ def Paint():
             print("Wrote Image")
             continue
 
-#main-menu UI
+#main-menu User Interface, designed using figma
 
-canvas = Canvas(
+canvas = Canvas(    # main frame for UI
     root,
     bg = "#FFFFFF",
     height = 1025,
@@ -347,7 +347,7 @@ canvas = Canvas(
     relief = "ridge"
 )
 
-canvas.place(x = 0, y = 0)
+canvas.place(x = 0, y = 0)   # this locates coordinates for images on main frame
 image_image_1 = PhotoImage(
     master = canvas,
     file=relative_to_assets("image_1.png"))
@@ -366,7 +366,9 @@ image_2 = canvas.create_image(
     image=image_image_2
 )
 
-button_image_1 = PhotoImage(
+# UI for buttons on main menu
+
+button_image_1 = PhotoImage(             
     master = canvas,
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
@@ -445,6 +447,7 @@ canvas.create_text(
     font=("Rosario Bold", 144 * -1)
 )
 root.resizable(False, False)
+# callback function for GUI
 root.mainloop()
 
     
