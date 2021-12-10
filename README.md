@@ -1,3 +1,4 @@
+
 # AirDraw
 
 Computer vision aided virtual board implemented with OpenCV
@@ -74,10 +75,17 @@ pip install python-tk
 ## Screenshots
 
 [![gif-1.gif](https://i.postimg.cc/C1bGNGP4/gif-1.gif)](https://postimg.cc/TLY52DXy)
+
 white board
+
 [![gif-2.gif](https://i.postimg.cc/1XCfc4QH/gif-2.gif)](https://postimg.cc/sGWj3j1Q)
+
 color and hue settings
+
 [![gif-3.gif](https://i.postimg.cc/tgppJp0C/gif-3.gif)](https://postimg.cc/BjYdwWQd)
+
 camboard
+
 [![Screenshot-68.png](https://i.postimg.cc/kMfFGGth/Screenshot-68.png)](https://postimg.cc/Dm4bY26q)
+
 main menu
