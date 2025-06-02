@@ -46,7 +46,7 @@ Download this repository by clicking the green button on the upper right corner.
 or for advanced users.
 
 ```bash
-  git clone https://github.com/SkandTiwari/AirDraw.git
+  git clone https://github.com/rokingshubham1/AirDraw.git
 ```
 this project requires python 3.6 or above to run, make sure to install latest version of python.
 if already installed please check it's version by typing following in CLI. 
